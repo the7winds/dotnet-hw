@@ -29,7 +29,7 @@
         {
             foreach (var type in this.testableTypes)
             {
-                type.Run();
+                type.Run().Print();
             }
         }
 
@@ -122,12 +122,12 @@
                 }
             }
 
-            public void Run()
+            public TestReport Run()
             {
+                TestReport testReport = new TestReport(this.testObjType);
                 object testObj = System.Activator.CreateInstance(this.testObjType);
 
                 var passedTests = 0;
-                Console.WriteLine($"Test class: {this.testObjType.Name}");
 
                 if (this.beforeClass != null)
                 {
@@ -147,10 +147,10 @@
                         test.Invoke(testObj, null);
                         timer.Stop();
                         passedTests += 1;
-                        Console.WriteLine($"[pass] (time {timer.ElapsedMilliseconds} ms) {test.Name}");
+                        testReport.AddRunResult(test, true, timer.ElapsedMilliseconds);
                     } catch
                     {
-                        Console.WriteLine($"[failed] {test.Name}");
+                        testReport.AddRunResult(test, false, 0);
                     }
 
                     if (this.after != null)
@@ -164,8 +164,7 @@
                     this.afterClass.Invoke(testObj, null);
                 }
 
-                Console.WriteLine($"Passed: {passedTests} / {this.tests.Count}");
-                Console.WriteLine();
+                return testReport;
             }
         }
     }
