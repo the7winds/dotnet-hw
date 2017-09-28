@@ -8,21 +8,29 @@
     [TestClass]
     public class MyNUnitTest
     {
-        [TestMethod]
-        public void RunTest()
+        [TestInitialize]
+        public void runTest()
         {
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 var system = new TestSystem(assembly);
                 system.Test();
             }
+        }
 
+        [TestMethod]
+        public void SimpleRunTest()
+        {
             using (FileStream input = new FileStream(Example01.OutputName, FileMode.Open, FileAccess.Read))
             {
                 var reader = new StreamReader(input);
                 Assert.AreEqual("TEST", reader.ReadLine());
             }
+        }
 
+        [TestMethod]
+        public void RunTest()
+        {
             using (FileStream input = new FileStream(Example02.OutputName, FileMode.Open, FileAccess.Read))
             {
                 var testsText = new List<string>() { "TEST-01", "TEST-02" };
@@ -33,6 +41,8 @@
                 Assert.AreEqual("AFTER", reader.ReadLine());
                 Assert.AreEqual("BEFORE", reader.ReadLine());
                 Assert.IsTrue(testsText.Remove(reader.ReadLine()));
+                Assert.AreEqual("AFTER", reader.ReadLine());
+                Assert.AreEqual("BEFORE", reader.ReadLine());
                 Assert.AreEqual("AFTER", reader.ReadLine());
                 Assert.AreEqual("AFTER CLASS", reader.ReadLine());
             }

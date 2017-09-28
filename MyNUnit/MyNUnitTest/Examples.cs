@@ -46,6 +46,12 @@
         [Test]
         public void Test02() => this.writer.WriteLine("TEST-02");
 
+        [Test(Ignore = "test ignore")]
+        public void Test03() => this.writer.WriteLine("TEST-03");
+
+        [Test(Expected = typeof(Exception))]
+        public void Test04() => throw new Exception();
+
         [After]
         public void After() => this.writer.WriteLine("AFTER");
 
