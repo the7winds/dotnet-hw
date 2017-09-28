@@ -7,6 +7,8 @@
     [AttributeUsage(AttributeTargets.All)]
     public class TestAttribute : Attribute
     {
+        public string Ignore;
+        public Type Expected;
     }
 
     [AttributeUsage(AttributeTargets.All)]
