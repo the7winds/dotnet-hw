@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Option
+﻿namespace Option
 {
+    using System;
+
     public class Option<T>
     {
         readonly static Option<T> NONE_OBJECT = new Option<T>();
         readonly T value;
 
-        private Option() { }
+        Option() { }
 
-        private Option(T value)
+        Option(T value)
         {
             this.value = value;
         }

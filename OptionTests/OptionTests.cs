@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-
-namespace Option.Tests
+﻿namespace Option.Tests
 {
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+
     [TestClass()]
     public class OptionTests
     {
