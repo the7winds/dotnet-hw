@@ -93,5 +93,22 @@ namespace DotnetHW.UnitTests
 
             Assert.Equal(3, aPrefixed);
         }
+
+        [Fact]
+        public void ShouldRemoveString()
+        {
+            trie.Add("");
+            
+            var removed = trie.Remove("");
+
+            Assert.True(removed);
+        }
+
+        [Fact]
+        public void ShouldNotRemoveString()
+        {
+            var removed = trie.Remove("");
+            Assert.False(removed);
+        }
     }
 }

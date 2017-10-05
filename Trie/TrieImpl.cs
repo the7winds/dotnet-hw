@@ -66,9 +66,12 @@ namespace DotnetHW
                 node = (TrieNode)node.children[c];
             }
 
-            node.terminate = false;
+            if (node.terminate == true) {
+                node.terminate = false;
+                return true;
+            }
 
-            return true;
+            return false;
         }
 
         public int Size() => _root.size;
