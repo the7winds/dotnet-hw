@@ -7,7 +7,7 @@ namespace DotnetHW.UnitTests
     public class TestTrieImpl : IDisposable
     {
         private const string WORD = "word";
-        private Trie trie;
+        private ITrie trie;
 
         public TestTrieImpl()
         {

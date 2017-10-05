@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace DotnetHW
 {
-    public interface Trie
+    public interface ITrie
     {
         /// Expected complexity: O(|element|)
         /// Returns true if this set did not already contain the specified element

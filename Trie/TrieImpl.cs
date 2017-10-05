@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace DotnetHW
 {
-    public class TrieImpl : Trie
+    public class TrieImpl : ITrie
     {
         TrieNode root = new TrieNode();
 
