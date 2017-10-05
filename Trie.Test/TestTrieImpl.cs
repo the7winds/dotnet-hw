@@ -1,62 +1,72 @@
 using Xunit;
 using DotnetHW;
+using System;
 
 namespace DotnetHW.UnitTests
 {
-    public class TrieImpl_IsTrieShould
+    public class TestTrieImpl : IDisposable
     {
+        private const string WORD = "word";
+        private Trie trie;
 
-        private readonly string WORD = "word";
-
-        [Fact]
-        public void AddWord()
+        public TestTrieImpl()
         {
-            var trie = new TrieImpl();
-            Assert.True(trie.Add(WORD));
+            trie = new TrieImpl();
+        }
+
+        public void Dispose()
+        {
+            trie = null;
         }
 
         [Fact]
-        public void DoNotAddWord()
+        public void ShouldAddWord()
         {
-            var trie = new TrieImpl();
+            var added = trie.Add(WORD);
+            Assert.True(added);
+        }
+
+        [Fact]
+        public void ShouldDoNotAddWord()
+        {
             trie.Add(WORD);
-            Assert.False(trie.Add(WORD));
+            var added = trie.Add(WORD);
+            Assert.False(added);
         }
 
         [Fact]
-        public void FindWord()
+        public void ShouldFindWord()
         {
-            var trie = new TrieImpl();
             trie.Add(WORD);
-            Assert.True(trie.Contains(WORD));
+            var contains = trie.Contains(WORD);
+            Assert.True(contains);
         }
 
         [Fact]
-        public void DoNotFindWord()
+        public void ShouldDoNotFindWord()
         {
-            var trie = new TrieImpl();
-            Assert.False(trie.Contains(WORD));
+            var contains = trie.Contains(WORD);
+            Assert.False(contains);
         }
 
         [Fact]
-        public void RemoveWord()
+        public void ShouldRemoveWord()
         {
-            var trie = new TrieImpl();
             trie.Add(WORD);
-            Assert.True(trie.Remove(WORD));
+            var removed = trie.Remove(WORD);
+            Assert.True(removed);
         }
 
         [Fact]
-        public void DoNotRemoveWord()
+        public void ShouldDoNotRemoveWord()
         {
-            var trie = new TrieImpl();
-            Assert.False(trie.Remove(WORD));
+            var removed = trie.Remove(WORD);
+            Assert.False(removed);
         }
 
         [Fact]
-        public void GetCorrectSize()
+        public void ShouldGetCorrectSize()
         {
-            var trie = new TrieImpl();
             var words = new[] { "a", "b", "c", "aa", "ab", "cc" };
 
             foreach (var word in words)
@@ -64,13 +74,14 @@ namespace DotnetHW.UnitTests
                 trie.Add(word);
             }
 
-            Assert.Equal(words.Length, trie.Size());
+            var size = trie.Size();
+
+            Assert.Equal(words.Length, size);
         }
 
         [Fact]
-        public void GetCorrectPrefixCount()
+        public void ShouldGetCorrectPrefixCount()
         {
-            var trie = new TrieImpl();
             var words = new[] { "a", "b", "c", "aa", "ab", "cc" };
 
             foreach (var word in words)
@@ -78,7 +89,9 @@ namespace DotnetHW.UnitTests
                 trie.Add(word);
             }
 
-            Assert.Equal(3, trie.HowManyStartsWithPrefix("a"));
+            var aPrefixed = trie.HowManyStartsWithPrefix("a");
+
+            Assert.Equal(3, aPrefixed);
         }
     }
 }
