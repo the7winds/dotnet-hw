@@ -4,7 +4,7 @@ namespace DotnetHW
 {
     public class TrieImpl : ITrie
     {
-        TrieNode _root = new TrieNode();
+        private TrieNode _root = new TrieNode();
 
         public bool Add(string element)
         {
@@ -93,7 +93,7 @@ namespace DotnetHW
             return node.size;
         }
 
-        class TrieNode
+        private class TrieNode
         {
             public bool terminate = false;
             public int size = 0;
