@@ -12,25 +12,25 @@ namespace DotnetHW
 
             foreach (var c in element)
             {
-                current.size++;
+                current.Size++;
 
-                if (!current.children.Contains(c))
+                if (!current.Children.Contains(c))
                 {
                     var next = new TrieNode();
-                    current.children.Add(c, next);
+                    current.Children.Add(c, next);
                 }
 
-                current = (TrieNode)current.children[c];
+                current = (TrieNode)current.Children[c];
             }
 
-            if (current.terminate)
+            if (current.IsTerminate)
             {
                 return false;
             }
             else
             {
-                current.terminate = true;
-                current.size = 1;
+                current.IsTerminate = true;
+                current.Size = 1;
                 return true;
             }
         }
@@ -41,15 +41,15 @@ namespace DotnetHW
 
             foreach (var c in element)
             {
-                if (!node.children.Contains(c))
+                if (!node.Children.Contains(c))
                 {
                     return false;
                 }
 
-                node = (TrieNode)node.children[c];
+                node = (TrieNode)node.Children[c];
             }
 
-            return node.terminate;
+            return node.IsTerminate;
         }
 
         public bool Remove(string element)
@@ -58,23 +58,23 @@ namespace DotnetHW
 
             foreach (var c in element)
             {
-                if (!node.children.Contains(c))
+                if (!node.Children.Contains(c))
                 {
                     return false;
                 }
 
-                node = (TrieNode)node.children[c];
+                node = (TrieNode)node.Children[c];
             }
 
-            if (node.terminate == true) {
-                node.terminate = false;
+            if (node.IsTerminate == true) {
+                node.IsTerminate = false;
                 return true;
             }
 
             return false;
         }
 
-        public int Size() => _root.size;
+        public int Size() => _root.Size;
 
         public int HowManyStartsWithPrefix(string prefix)
         {
@@ -82,22 +82,22 @@ namespace DotnetHW
 
             foreach (var c in prefix)
             {
-                if (!node.children.Contains(c))
+                if (!node.Children.Contains(c))
                 {
                     return 0;
                 }
 
-                node = (TrieNode)node.children[c];
+                node = (TrieNode)node.Children[c];
             }
 
-            return node.size;
+            return node.Size;
         }
 
         private class TrieNode
         {
-            public bool terminate = false;
-            public int size = 0;
-            public Hashtable children = new Hashtable();
+            public bool IsTerminate = false;
+            public int Size = 0;
+            public Hashtable Children = new Hashtable();
         }
     }
 }

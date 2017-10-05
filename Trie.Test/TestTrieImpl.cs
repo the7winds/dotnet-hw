@@ -7,60 +7,60 @@ namespace DotnetHW.UnitTests
     public class TestTrieImpl : IDisposable
     {
         private const string WORD = "word";
-        private ITrie trie;
+        private ITrie _trie;
 
         public TestTrieImpl()
         {
-            trie = new TrieImpl();
+            _trie = new TrieImpl();
         }
 
         public void Dispose()
         {
-            trie = null;
+            _trie = null;
         }
 
         [Fact]
         public void ShouldAddWord()
         {
-            var added = trie.Add(WORD);
+            var added = _trie.Add(WORD);
             Assert.True(added);
         }
 
         [Fact]
         public void ShouldDoNotAddWord()
         {
-            trie.Add(WORD);
-            var added = trie.Add(WORD);
+            _trie.Add(WORD);
+            var added = _trie.Add(WORD);
             Assert.False(added);
         }
 
         [Fact]
         public void ShouldFindWord()
         {
-            trie.Add(WORD);
-            var contains = trie.Contains(WORD);
+            _trie.Add(WORD);
+            var contains = _trie.Contains(WORD);
             Assert.True(contains);
         }
 
         [Fact]
         public void ShouldDoNotFindWord()
         {
-            var contains = trie.Contains(WORD);
+            var contains = _trie.Contains(WORD);
             Assert.False(contains);
         }
 
         [Fact]
         public void ShouldRemoveWord()
         {
-            trie.Add(WORD);
-            var removed = trie.Remove(WORD);
+            _trie.Add(WORD);
+            var removed = _trie.Remove(WORD);
             Assert.True(removed);
         }
 
         [Fact]
         public void ShouldDoNotRemoveWord()
         {
-            var removed = trie.Remove(WORD);
+            var removed = _trie.Remove(WORD);
             Assert.False(removed);
         }
 
@@ -71,10 +71,10 @@ namespace DotnetHW.UnitTests
 
             foreach (var word in words)
             {
-                trie.Add(word);
+                _trie.Add(word);
             }
 
-            var size = trie.Size();
+            var size = _trie.Size();
 
             Assert.Equal(words.Length, size);
         }
@@ -86,10 +86,10 @@ namespace DotnetHW.UnitTests
 
             foreach (var word in words)
             {
-                trie.Add(word);
+                _trie.Add(word);
             }
 
-            var aPrefixed = trie.HowManyStartsWithPrefix("a");
+            var aPrefixed = _trie.HowManyStartsWithPrefix("a");
 
             Assert.Equal(3, aPrefixed);
         }
@@ -97,9 +97,9 @@ namespace DotnetHW.UnitTests
         [Fact]
         public void ShouldRemoveString()
         {
-            trie.Add("");
+            _trie.Add("");
             
-            var removed = trie.Remove("");
+            var removed = _trie.Remove("");
 
             Assert.True(removed);
         }
@@ -107,7 +107,7 @@ namespace DotnetHW.UnitTests
         [Fact]
         public void ShouldNotRemoveString()
         {
-            var removed = trie.Remove("");
+            var removed = _trie.Remove("");
             Assert.False(removed);
         }
     }
