@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 
 namespace DotnetHW
 {
@@ -14,7 +14,7 @@ namespace DotnetHW
             {
                 current.Size++;
 
-                if (!current.Children.Contains(c))
+                if (!current.Children.ContainsKey(c))
                 {
                     var next = new TrieNode();
                     current.Children.Add(c, next);
@@ -41,7 +41,7 @@ namespace DotnetHW
 
             foreach (var c in element)
             {
-                if (!node.Children.Contains(c))
+                if (!node.Children.ContainsKey(c))
                 {
                     return false;
                 }
@@ -58,7 +58,7 @@ namespace DotnetHW
 
             foreach (var c in element)
             {
-                if (!node.Children.Contains(c))
+                if (!node.Children.ContainsKey(c))
                 {
                     return false;
                 }
@@ -82,7 +82,7 @@ namespace DotnetHW
 
             foreach (var c in prefix)
             {
-                if (!node.Children.Contains(c))
+                if (!node.Children.ContainsKey(c))
                 {
                     return 0;
                 }
@@ -97,7 +97,7 @@ namespace DotnetHW
         {
             public bool IsTerminate = false;
             public int Size = 0;
-            public Hashtable Children = new Hashtable();
+            public readonly IDictionary<char, TrieNode> Children = new Dictionary<char, TrieNode>();
         }
     }
 }
