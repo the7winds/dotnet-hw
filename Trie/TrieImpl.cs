@@ -4,11 +4,11 @@ namespace DotnetHW
 {
     public class TrieImpl : ITrie
     {
-        TrieNode root = new TrieNode();
+        TrieNode _root = new TrieNode();
 
         public bool Add(string element)
         {
-            var current = root;
+            var current = _root;
 
             foreach (var c in element)
             {
@@ -37,7 +37,7 @@ namespace DotnetHW
 
         public bool Contains(string element)
         {
-            var node = root;
+            var node = _root;
 
             foreach (var c in element)
             {
@@ -54,7 +54,7 @@ namespace DotnetHW
 
         public bool Remove(string element)
         {
-            var node = root;
+            var node = _root;
 
             foreach (var c in element)
             {
@@ -71,11 +71,11 @@ namespace DotnetHW
             return true;
         }
 
-        public int Size() => root.size;
+        public int Size() => _root.size;
 
         public int HowManyStartsWithPrefix(string prefix)
         {
-            var node = root;
+            var node = _root;
 
             foreach (var c in prefix)
             {
