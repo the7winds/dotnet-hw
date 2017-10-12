@@ -1,21 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Roguelike
+﻿namespace Roguelike
 {
     class Program
     {
         static void Main(string[] args)
         {
+            var mapFilename = "map.txt";
+
+            if (args.Length == 1)
+            {
+                mapFilename = args[0];
+            }
+
+            var game = new Game(mapFilename)
+            {
+                Printer = new PrettyPrinter()
+            };
+
             var eventLoop = new EventLoop();
 
-            eventLoop.OnUp += delegate { Console.WriteLine("up"); };
-            eventLoop.OnDown += delegate { Console.WriteLine("down"); };
-            eventLoop.OnLeft += delegate { Console.WriteLine("left"); };
-            eventLoop.OnRight += delegate { Console.WriteLine("right"); };
+            eventLoop.OnUp += delegate { game.OnMove(0, -1); };
+            eventLoop.OnDown += delegate { game.OnMove(0, 1); };
+            eventLoop.OnLeft += delegate { game.OnMove(-1, 0); };
+            eventLoop.OnRight += delegate { game.OnMove(1, 0); };
+            eventLoop.OnStart += game.OnStart;
 
             eventLoop.Run();
         }

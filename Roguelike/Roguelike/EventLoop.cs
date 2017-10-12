@@ -5,6 +5,7 @@
 
     internal class EventLoop
     {
+        public event Action OnStart;
         public event Action OnLeft;
         public event Action OnRight;
         public event Action OnUp;
@@ -19,6 +20,8 @@
                 { ConsoleKey.LeftArrow, OnLeft },
                 { ConsoleKey.RightArrow, OnRight }
             };
+
+            OnStart.Invoke();
 
             while (true)
             {
