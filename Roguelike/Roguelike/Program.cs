@@ -1,8 +1,8 @@
 ﻿namespace Roguelike
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var mapFilename = "map.txt";
 
@@ -24,10 +24,10 @@
 
             var eventLoop = new EventLoop();
 
-            eventLoop.OnUp += delegate { game.OnMove(0, -1); };
-            eventLoop.OnDown += delegate { game.OnMove(0, 1); };
-            eventLoop.OnLeft += delegate { game.OnMove(-1, 0); };
-            eventLoop.OnRight += delegate { game.OnMove(1, 0); };
+            eventLoop.OnUp += () => { game.OnMove(0, -1); };
+            eventLoop.OnDown += () => { game.OnMove(0, 1); };
+            eventLoop.OnLeft += () => { game.OnMove(-1, 0); };
+            eventLoop.OnRight += () => { game.OnMove(1, 0); };
             eventLoop.OnStart += game.OnStart;
 
             eventLoop.Run();

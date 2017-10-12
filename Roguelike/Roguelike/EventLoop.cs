@@ -6,22 +6,26 @@
     internal class EventLoop
     {
         public event Action OnStart;
+
         public event Action OnLeft;
+
         public event Action OnRight;
+
         public event Action OnUp;
+
         public event Action OnDown;
 
         public void Run()
         {
             var handlers = new Dictionary<ConsoleKey, Action>
             {
-                { ConsoleKey.UpArrow, OnUp },
-                { ConsoleKey.DownArrow, OnDown },
-                { ConsoleKey.LeftArrow, OnLeft },
-                { ConsoleKey.RightArrow, OnRight }
+                { ConsoleKey.UpArrow, this.OnUp },
+                { ConsoleKey.DownArrow, this.OnDown },
+                { ConsoleKey.LeftArrow, this.OnLeft },
+                { ConsoleKey.RightArrow, this.OnRight }
             };
 
-            OnStart.Invoke();
+            this.OnStart.Invoke();
 
             while (true)
             {
