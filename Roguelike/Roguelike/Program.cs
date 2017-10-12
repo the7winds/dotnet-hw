@@ -11,6 +11,12 @@
                 mapFilename = args[0];
             }
 
+            if (!System.IO.File.Exists(mapFilename))
+            {
+                System.Console.WriteLine($"can't find {mapFilename}");
+                System.Environment.Exit(1);
+            }
+
             var game = new Game(mapFilename)
             {
                 Printer = new PrettyPrinter()
