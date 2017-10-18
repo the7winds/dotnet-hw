@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Reflection;
 
-    internal class TestReport
+    public class TestReport
     {
         private readonly Type testObjType;
         private readonly List<RunReport> runReports;

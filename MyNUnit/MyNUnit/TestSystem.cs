@@ -5,6 +5,8 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
+    using static MyNUnit.TestReport;
+    using static MyNUnit.TestReport.RunReport;
 
     /// <summary>
     /// Represents tests for an assembly
@@ -137,11 +139,11 @@
                     this.attrubute = attribute as TestAttribute;
                 }
 
-                public TestReport.RunReport Run(object testObj, MethodInfo before, MethodInfo after)
+                public RunReport Run(object testObj, MethodInfo before, MethodInfo after)
                 {
                     if (this.attrubute.Ignore != null)
                     {
-                        return new TestReport.RunReport(this.method, TestReport.RunReport.RunStatus.IGNORED, this.attrubute.Ignore);
+                        return new RunReport(this.method, RunStatus.IGNORED, this.attrubute.Ignore);
                     }
 
                     before?.Invoke(testObj, null);
@@ -161,14 +163,14 @@
 
                     after?.Invoke(testObj, null);
 
-                    var status = TestReport.RunReport.RunStatus.FAILED;
+                    var status = RunStatus.FAILED;
 
                     if (this.attrubute.Expected == catched?.GetType())
                     {
-                        status = TestReport.RunReport.RunStatus.SUCCESS;
+                        status = RunStatus.SUCCESS;
                     }
 
-                    return new TestReport.RunReport(this.method, status, timer.ElapsedMilliseconds);
+                    return new RunReport(this.method, status, timer.ElapsedMilliseconds);
                 }
             }
         }
