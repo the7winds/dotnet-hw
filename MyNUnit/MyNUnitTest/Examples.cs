@@ -12,13 +12,7 @@
         [Test]
         public void Test()
         {
-            using (var output = new FileStream(OutputName, FileMode.OpenOrCreate, FileAccess.Write))
-            {
-                using (var writer = new StreamWriter(output))
-                {
-                    writer.WriteLine("TEST");
-                }
-            }
+            File.AppendAllText(OutputName, "TEST\n");
         }
     }
 
@@ -26,41 +20,49 @@
     {
         public static readonly string OutputName = $"{typeof(Example02).Name}.output";
 
-        private FileStream output;
-        private StreamWriter writer;
-
         [BeforeClass]
         public void BeforeClass()
         {
-            this.output = new FileStream(OutputName, FileMode.OpenOrCreate, FileAccess.Write);
-            this.writer = new StreamWriter(this.output);
-            this.writer.WriteLine("BEFORE CLASS");
+            File.AppendAllText(OutputName, "BEFORE CLASS\n");
         }
 
         [Before]
-        public void Before() => this.writer.WriteLine("BEFORE");
+        public void Before()
+        {
+            File.AppendAllText(OutputName, "BEFORE\n");
+        }
 
         [Test]
-        public void Test01() => this.writer.WriteLine("TEST-01");
+        public void Test01()
+        {
+            File.AppendAllText(OutputName, "TEST-01\n");
+        }
 
         [Test]
-        public void Test02() => this.writer.WriteLine("TEST-02");
+        public void Test02()
+        {
+            File.AppendAllText(OutputName, "TEST-02\n");
+        }
 
         [Test(Ignore = "test ignore")]
-        public void Test03() => this.writer.WriteLine("TEST-03");
+        public void Test03()
+        {
+            File.AppendAllText(OutputName, "TEST-03\n");
+        }
 
         [Test(Expected = typeof(Exception))]
         public void Test04() => throw new Exception();
 
         [After]
-        public void After() => this.writer.WriteLine("AFTER");
+        public void After()
+        {
+            File.AppendAllText(OutputName, "AFTER\n");
+        }
 
         [AfterClass]
         public void AfterClass()
         {
-            this.writer.WriteLine("AFTER CLASS");
-            this.writer.Close();
-            this.output.Close();
+            File.AppendAllText(OutputName, "AFTER CLASS\n");
         }
     }
 }
