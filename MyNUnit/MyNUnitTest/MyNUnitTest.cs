@@ -9,7 +9,7 @@
     public class MyNUnitTest
     {
         [TestInitialize]
-        public void runTest()
+        public void RunTestSystem()
         {
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
