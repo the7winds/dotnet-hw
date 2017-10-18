@@ -23,12 +23,12 @@
 
             if (runReport.Status == RunReport.RunStatus.SUCCESS)
             {
-                this.success += 1;
+                this.success++;
             }
 
             if (runReport.Status != RunReport.RunStatus.IGNORED)
             {
-                this.total += 1;
+                this.total++;
             }
         }
 
