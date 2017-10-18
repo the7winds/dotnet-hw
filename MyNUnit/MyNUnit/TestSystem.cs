@@ -7,16 +7,17 @@
     using System.Reflection;
 
     /// <summary>
-    /// Represents tests for an assebly
+    /// Represents tests for an assembly
     /// </summary>
     public class TestSystem
     {
         private Assembly assembly;
-        private List<TestClassContext> testableTypes = new List<TestClassContext>();
+        private List<TestClassContext> testableTypes;
 
         public TestSystem(Assembly assembly)
         {
             this.assembly = assembly;
+            this.testableTypes = new List<TestClassContext>();
         }
 
         public void Test()
@@ -35,7 +36,6 @@
 
         private bool ContainsTestMethod(Type type)
         {
-            var name = type.Name;
             foreach (var method in type.GetMethods())
             {
                 foreach (var attr in method.CustomAttributes)
@@ -86,11 +86,12 @@
             private MethodInfo afterClass;
             private MethodInfo before;
             private MethodInfo after;
-            private List<TestContext> tests = new List<TestContext>();
+            private List<TestContext> tests;
 
             public TestClassContext(Type type)
             {
                 this.testObjType = type;
+                this.tests = new List<TestContext>();
 
                 foreach (var method in type.GetMethods())
                 {
@@ -130,8 +131,9 @@
 
             public TestReport Run()
             {
-                TestReport testReport = new TestReport(this.testObjType);
-                object testObj = System.Activator.CreateInstance(this.testObjType);
+                var testReport = new TestReport(this.testObjType);
+                var testObj = Activator.CreateInstance(this.testObjType);
+
                 if (this.beforeClass != null)
                 {
                     this.beforeClass.Invoke(testObj, null);
@@ -139,7 +141,7 @@
 
                 foreach (var test in this.tests)
                 {
-                    testReport.AddRunResult(test.Run(testObj, before, after));
+                    testReport.AddRunResult(test.Run(testObj, this.before, this.after));
                 }
 
                 if (this.afterClass != null)
@@ -158,14 +160,14 @@
                 public TestContext(Attribute attribute, MethodInfo method)
                 {
                     this.method = method;
-                    this.attrubute = (TestAttribute)attribute;
+                    this.attrubute = attribute as TestAttribute;
                 }
 
                 public TestReport.RunReport Run(object testObj, MethodInfo before, MethodInfo after)
                 {
                     if (this.attrubute.Ignore != null)
                     {
-                        return new TestReport.RunReport(this.method, this.attrubute.Ignore);
+                        return new TestReport.RunReport(this.method, TestReport.RunReport.RunStatus.IGNORED, this.attrubute.Ignore);
                     }
 
                     if (before != null)
@@ -183,6 +185,7 @@
                     {
                         catched = e.GetBaseException();
                     }
+
                     timer.Stop();
 
                     if (after != null)

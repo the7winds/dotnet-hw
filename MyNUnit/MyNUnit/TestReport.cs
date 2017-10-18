@@ -7,11 +7,15 @@
     internal class TestReport
     {
         private readonly Type testObjType;
-        private readonly List<RunReport> runReports = new List<RunReport>();
-        private int success = 0;
-        private int total = 0;
+        private readonly List<RunReport> runReports;
+        private int success;
+        private int total;
 
-        public TestReport(Type test) => this.testObjType = test;
+        public TestReport(Type test)
+        {
+            this.testObjType = test;
+            this.runReports = new List<RunReport>();
+        }
 
         public void AddRunResult(RunReport runReport)
         {
@@ -43,36 +47,23 @@
 
         public class RunReport
         {
-            public readonly RunStatus Status;
+            private readonly RunStatus status;
             private readonly MethodInfo method;
             private readonly long time;
             private readonly string ignored;
 
-            public RunReport(MethodInfo method, string ignored)
+            public RunReport(MethodInfo method, RunStatus status, string ignored)
             {
                 this.method = method;
                 this.ignored = ignored;
-                this.Status = RunStatus.IGNORED;
+                this.status = status;
             }
 
-            public RunReport(MethodInfo method, RunStatus success, long time)
+            public RunReport(MethodInfo method, RunStatus status, long time)
             {
                 this.method = method;
-                this.Status = success;
+                this.status = status;
                 this.time = time;
-            }
-
-            public void Print() => Console.WriteLine(this.GetRepr());
-
-            private string GetRepr()
-            {
-                switch (this.Status)
-                {
-                    case RunStatus.IGNORED:
-                        return $"[{this.Status.ToString()}] {this.ignored} {this.method.Name}";
-                    default:
-                        return $"[{this.Status.ToString()}] {(this.Status == RunStatus.SUCCESS ? $"({this.time} ms)" : string.Empty)} {this.method.Name}";
-                }
             }
 
             public enum RunStatus
@@ -80,6 +71,29 @@
                 SUCCESS,
                 IGNORED,
                 FAILED
+            }
+
+            public RunStatus Status => this.status;
+
+            public void Print() => Console.WriteLine(this.GetRepr());
+
+            private string GetRepr()
+            {
+                string state = string.Empty;
+
+                switch (this.Status)
+                {
+                    case RunStatus.IGNORED:
+                        state = $"{this.ignored}";
+                        break;
+                    case RunStatus.SUCCESS:
+                        state = $"({this.time} ms)";
+                        break;
+                    case RunStatus.FAILED:
+                        break;
+                }
+
+                return $"[{this.Status}] {state} {this.method.Name}]";
             }
         }
     }
