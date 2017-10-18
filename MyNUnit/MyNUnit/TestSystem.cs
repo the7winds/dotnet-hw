@@ -134,20 +134,14 @@
                 var testReport = new TestReport(this.testObjType);
                 var testObj = Activator.CreateInstance(this.testObjType);
 
-                if (this.beforeClass != null)
-                {
-                    this.beforeClass.Invoke(testObj, null);
-                }
+                this.beforeClass?.Invoke(testObj, null);
 
                 foreach (var test in this.tests)
                 {
                     testReport.AddRunResult(test.Run(testObj, this.before, this.after));
                 }
 
-                if (this.afterClass != null)
-                {
-                    this.afterClass.Invoke(testObj, null);
-                }
+                this.afterClass?.Invoke(testObj, null);
 
                 return testReport;
             }
@@ -170,10 +164,7 @@
                         return new TestReport.RunReport(this.method, TestReport.RunReport.RunStatus.IGNORED, this.attrubute.Ignore);
                     }
 
-                    if (before != null)
-                    {
-                        before.Invoke(testObj, null);
-                    }
+                    before?.Invoke(testObj, null);
 
                     Exception catched = null;
                     var timer = Stopwatch.StartNew();
@@ -188,15 +179,11 @@
 
                     timer.Stop();
 
-                    if (after != null)
-                    {
-                        after.Invoke(testObj, null);
-                    }
+                    after?.Invoke(testObj, null);
 
                     var status = TestReport.RunReport.RunStatus.FAILED;
 
-                    if ((this.attrubute.Expected != null && this.attrubute.Expected == catched.GetType())
-                        || (this.attrubute.Expected == null && catched == null))
+                    if (this.attrubute.Expected == catched?.GetType())
                     {
                         status = TestReport.RunReport.RunStatus.SUCCESS;
                     }
