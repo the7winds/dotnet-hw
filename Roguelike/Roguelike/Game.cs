@@ -40,12 +40,14 @@
 
         public class Map
         {
-            private readonly ISet<Tuple<int, int>> walls = new HashSet<Tuple<int, int>>();
+            private readonly ISet<Tuple<int, int>> walls;
 
             private readonly Tuple<int, int> spawn;
 
             public Map(string mapFilename)
             {
+                this.walls = new HashSet<Tuple<int, int>>();
+
                 using (var mapFile = new System.IO.StreamReader(mapFilename))
                 {
                     for (int y = 0; !mapFile.EndOfStream; ++y)
