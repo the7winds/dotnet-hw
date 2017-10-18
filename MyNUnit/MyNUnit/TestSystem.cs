@@ -28,37 +28,22 @@
 
         private void RunTests()
         {
-            foreach (var type in this.testableTypes)
-            {
-                type.Run().Print();
-            }
+            this.testableTypes.ForEach(type => type.Run().Print());
         }
 
         private bool ContainsTestMethod(Type type)
         {
-            foreach (var method in type.GetMethods())
-            {
-                foreach (var attr in method.CustomAttributes)
-                {
-                    if (attr.AttributeType == typeof(TestAttribute))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            return type.GetMethods()
+                .SelectMany(method => method.CustomAttributes)
+                .Any(attr => attr.AttributeType == typeof(TestAttribute));
         }
 
         private void CollectTestableTypes()
         {
-            foreach (var type in this.assembly.ExportedTypes)
-            {
-                if (this.ContainsTestMethod(type))
-                {
-                    this.testableTypes.Add(new TestClassContext(type));
-                }
-            }
+            this.assembly.ExportedTypes
+                .ToList()
+                .FindAll(type => this.ContainsTestMethod(type))
+                .ForEach(type => this.testableTypes.Add(new TestClassContext(type)));
         }
 
         /// <summary>
@@ -95,9 +80,9 @@
 
                 foreach (var method in type.GetMethods())
                 {
-                    var attr = method.GetCustomAttributes()
-                            .Where(a => TestAttributesTypes.Contains(a.GetType()))
-                            .FirstOrDefault();
+                    var attr = method
+                        .GetCustomAttributes()
+                        .FirstOrDefault(a => TestAttributesTypes.Contains(a.GetType()));
 
                     if (attr == null)
                     {
@@ -135,12 +120,7 @@
                 var testObj = Activator.CreateInstance(this.testObjType);
 
                 this.beforeClass?.Invoke(testObj, null);
-
-                foreach (var test in this.tests)
-                {
-                    testReport.AddRunResult(test.Run(testObj, this.before, this.after));
-                }
-
+                this.tests.ForEach(test => testReport.AddRunResult(test.Run(testObj, this.before, this.after)));
                 this.afterClass?.Invoke(testObj, null);
 
                 return testReport;

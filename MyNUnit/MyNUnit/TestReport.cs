@@ -36,10 +36,7 @@
         {
             Console.WriteLine($"Test class: {this.testObjType.Name}");
 
-            foreach (var report in this.runReports)
-            {
-                report.Print();
-            }
+            this.runReports.ForEach(report => report.Print());
 
             Console.WriteLine($"Passed: {this.success} / {this.total}");
             Console.WriteLine();
