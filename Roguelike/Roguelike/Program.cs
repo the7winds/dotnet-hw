@@ -29,6 +29,7 @@
             eventLoop.OnLeft += () => { game.OnMove(-1, 0); };
             eventLoop.OnRight += () => { game.OnMove(1, 0); };
             eventLoop.OnStart += game.OnStart;
+            eventLoop.OnDefault += game.OnDefault;
 
             eventLoop.Run();
         }

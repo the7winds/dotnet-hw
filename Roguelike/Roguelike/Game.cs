@@ -36,6 +36,8 @@
             this.Printer.Draw(this.hero);
         }
 
+        public void OnDefault() => this.printer.ResetKeypress();
+
         public class Map
         {
             private readonly ISet<Tuple<int, int>> walls = new HashSet<Tuple<int, int>>();

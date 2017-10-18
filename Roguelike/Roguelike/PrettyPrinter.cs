@@ -42,6 +42,13 @@
             }
         }
 
+        public void ResetKeypress()
+        {
+            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+            Console.Write("@");
+            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
+        }
+
         private Tuple<int, int> Transform(Tuple<int, int> position)
         {
             var x = (position.Item1 + this.width) % this.width;

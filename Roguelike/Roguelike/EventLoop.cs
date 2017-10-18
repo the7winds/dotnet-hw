@@ -15,6 +15,8 @@
 
         public event Action OnDown;
 
+        public event Action OnDefault;
+
         public void Run()
         {
             var handlers = new Dictionary<ConsoleKey, Action>
@@ -38,6 +40,10 @@
                 else if (key == ConsoleKey.Escape)
                 {
                     return;
+                }
+                else
+                {
+                    this.OnDefault.Invoke();
                 }
             }
         }
