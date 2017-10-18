@@ -11,8 +11,8 @@
     /// </summary>
     public class TestSystem
     {
-        private Assembly assembly;
-        private List<TestClassContext> testableTypes;
+        private readonly Assembly assembly;
+        private readonly List<TestClassContext> testableTypes;
 
         public TestSystem(Assembly assembly)
         {
@@ -81,12 +81,12 @@
                 AfterClassType
             };
 
-            private Type testObjType;
-            private MethodInfo beforeClass;
-            private MethodInfo afterClass;
-            private MethodInfo before;
-            private MethodInfo after;
-            private List<TestContext> tests;
+            private readonly Type testObjType;
+            private readonly MethodInfo beforeClass;
+            private readonly MethodInfo afterClass;
+            private readonly MethodInfo before;
+            private readonly MethodInfo after;
+            private readonly List<TestContext> tests;
 
             public TestClassContext(Type type)
             {
