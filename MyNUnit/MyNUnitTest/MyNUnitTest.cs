@@ -11,8 +11,8 @@
         [TestInitialize]
         public void RunTestSystem()
         {
-            File.Create(Example01.OutputName);
-            File.Create(Example02.OutputName);
+            File.Create(Example01.OutputName).Close();
+            File.Create(Example02.OutputName).Close();
 
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
