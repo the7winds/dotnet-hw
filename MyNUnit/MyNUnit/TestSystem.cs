@@ -91,25 +91,23 @@
                         continue;
                     }
 
-                    var attrType = attr.GetType();
-
-                    if (attrType == TestType)
+                    if (attr is TestAttribute)
                     {
-                        this.tests.Add(new TestContext(attr, method));
+                        this.tests.Add(new TestContext(attr as TestAttribute, method));
                     }
-                    else if (attrType == BeforeType)
+                    else if (attr is BeforeAttribute)
                     {
                         this.before = method;
                     }
-                    else if (attrType == AfterType)
+                    else if (attr is AfterAttribute)
                     {
                         this.after = method;
                     }
-                    else if (attrType == BeforeClassType)
+                    else if (attr is BeforeClassAttribute)
                     {
                         this.beforeClass = method;
                     }
-                    else if (attrType == AfterClassType)
+                    else if (attr is AfterClassAttribute)
                     {
                         this.afterClass = method;
                     }
@@ -133,10 +131,10 @@
                 private readonly TestAttribute attrubute;
                 private readonly MethodInfo method;
 
-                public TestContext(Attribute attribute, MethodInfo method)
+                public TestContext(TestAttribute attribute, MethodInfo method)
                 {
                     this.method = method;
-                    this.attrubute = attribute as TestAttribute;
+                    this.attrubute = attribute;
                 }
 
                 public RunReport Run(object testObj, MethodInfo before, MethodInfo after)
