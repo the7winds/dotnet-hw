@@ -1,0 +1,124 @@
+﻿namespace Multithreading.LockBased
+{
+    using System.Threading;
+
+    public class BlockingArrayQueue<T> : IBlockingQueue<T>
+    {
+        T[] _array;
+        int _begin;
+        int _size;
+        object _guard;
+
+        public BlockingArrayQueue(int arraySize)
+        {
+            _array = new T[arraySize];
+            _guard = new object();
+        }
+
+        public T Deque()
+        {
+            try 
+            {
+                Monitor.Enter(_guard);
+
+                while (_size == 0)
+                {
+                    Monitor.Wait(_guard);
+                }
+
+                T val = _array[_begin];
+                _begin = (_begin + 1) % _array.Length;
+                _size--;
+
+                Monitor.Pulse(_guard);
+
+                return val;
+            }
+            finally
+            {
+                Monitor.Exit(_guard);
+            }
+        }
+
+        public void Enque(T val)
+        {
+            try
+            {
+                Monitor.Enter(_guard);
+
+                while (_size == _array.Length)
+                {
+                    Monitor.Wait(_guard);
+                }
+                
+                var pos = (_begin + _size) % _array.Length;
+                _array[pos] = val;
+                _size++;
+
+                Monitor.Pulse(_guard);
+            }
+            finally
+            {
+                Monitor.Exit(_guard);
+            }
+        }
+
+        public bool TryDeque(out T val)
+        { 
+            if (!Monitor.TryEnter(_guard))
+            {
+                val = default(T);
+                return false;
+            }
+
+            try
+            {
+                if (_size == 0)
+                {
+                    val = default(T);
+                    return false;
+                }
+
+                val = _array[_begin];
+                _begin = (_begin + 1) % _array.Length;
+                _size--;
+
+                Monitor.Pulse(_guard);
+
+                return true;
+            }
+            finally
+            {
+                Monitor.Exit(_guard);
+            }
+        }
+
+        public bool TryEnque(T val)
+        {
+            if (!Monitor.TryEnter(_guard))
+            {
+                return false;
+            }
+
+            try
+            {
+                if (_size == _array.Length)
+                {
+                    return false;
+                }
+
+                var pos = (_begin + _size) % _array.Length;
+                _array[pos] = val;
+                _size++;
+
+                Monitor.Pulse(_guard);
+
+                return true;
+            }
+            finally
+            {
+                Monitor.Exit(_guard);
+            }
+        }
+    }
+}
