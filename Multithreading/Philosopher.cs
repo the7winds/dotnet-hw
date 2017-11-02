@@ -43,7 +43,7 @@
                         Thread.Sleep(1000);
                     }
 
-                    Console.WriteLine($"Philosopher #{_id} has put fork #{_first.Id}");
+                    Console.WriteLine($"Philosopher #{_id} has put fork #{_second.Id}");
                 }
                 Console.WriteLine($"Philosopher #{_id} has put fork #{_first.Id}");
 

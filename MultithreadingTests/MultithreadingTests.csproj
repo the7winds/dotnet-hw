@@ -57,6 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BlockingArrayQueueTests.cs" />
+    <Compile Include="DinningRoomTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
