@@ -34,13 +34,13 @@
         [TestMethod]
         public void MapNoneTest()
         {
-            Assert.IsTrue(Option<int>.None.Map<string>(_ => _.ToString()).IsNone);
+            Assert.IsTrue(Option<int>.None.Map(_ => _.ToString()).IsNone);
         }
 
         [TestMethod]
         public void MapSomeTest()
         {
-            Assert.AreEqual("42", Option<int>.Some(42).Map<string>(_ => _.ToString()).Value);
+            Assert.AreEqual("42", Option<int>.Some(42).Map(_ => _.ToString()).Value);
         }
 
         [TestMethod]
