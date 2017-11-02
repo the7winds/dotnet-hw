@@ -1,55 +1,93 @@
 ﻿namespace Option
 {
     using System;
+    using System.Collections.Generic;
 
     public class Option<T>
     {
-        readonly static Option<T> NONE_OBJECT = new Option<T>();
-        readonly T value;
+        private readonly static Option<T> _NONE_OBJECT;
+        private readonly T _value;
 
-        Option() { }
-
-        Option(T value)
+        static Option()
         {
-            this.value = value;
+            _NONE_OBJECT = new Option<T>(default(T));
+        }
+
+        private Option(T value)
+        {
+            this._value = value;
         }
 
         public static Option<T> Some(T value) => new Option<T>(value);
 
-        public static Option<T> None() => NONE_OBJECT;
+        public static Option<T> None => _NONE_OBJECT;
 
-        public bool IsSome() => this != NONE_OBJECT;
+        public bool IsSome => this != _NONE_OBJECT;
 
-        public bool IsNone() => this == NONE_OBJECT;
+        public bool IsNone => this == _NONE_OBJECT;
 
-        public T Value()
+        public T Value
         {
-            if (IsNone())
+            get
             {
-                throw new Exception("There is no value in None");
-            }
+                if (IsNone)
+                {
+                    throw new Exception("There is no value in None");
+                }
 
-            return value;
+                return _value;
+            }
         }
 
         public Option<U> Map<U>(Func<T, U> f)
         {
-            if (IsNone())
+            if (IsNone)
             {
-                return Option<U>.None();
+                return Option<U>.None;
             }
 
-            return Option<U>.Some(f(value));
+            return Option<U>.Some(f(_value));
+        }
+
+        public override bool Equals(object o)
+        {
+            if (!(o is Option<T>))
+            {
+                return false;
+            }
+
+            Option<T> option = o as Option<T>;
+
+            if (IsNone != option.IsNone)
+            {
+                return false;
+            }
+
+            if (IsNone)
+            {
+                return true;
+            }
+
+            return _value.Equals(option._value);
         }
 
         public static Option<T> Flatten(Option<Option<T>> option)
         {
-            if (option.IsNone())
+            if (option.IsNone)
             {
-                return Option<T>.None();
+                return Option<T>.None;
             }
 
-            return option.value;
+            return option._value;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 2139456307;
+            hashCode = hashCode * -1521134295 + EqualityComparer<T>.Default.GetHashCode(_value);
+            hashCode = hashCode * -1521134295 + IsSome.GetHashCode();
+            hashCode = hashCode * -1521134295 + IsNone.GetHashCode();
+            return hashCode;
         }
     }
 }
