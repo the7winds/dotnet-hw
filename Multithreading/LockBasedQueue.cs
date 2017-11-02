@@ -4,10 +4,10 @@
 
     public class BlockingArrayQueue<T> : IBlockingQueue<T>
     {
-        T[] _array;
-        int _begin;
-        int _size;
-        object _guard;
+        private T[] _array;
+        private int _begin;
+        private int _size;
+        private object _guard;
 
         public BlockingArrayQueue(int arraySize)
         {

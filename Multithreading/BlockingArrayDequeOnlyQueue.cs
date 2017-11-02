@@ -5,20 +5,19 @@
     public class BlockingArrayDequeOnlyQueue<T>
     {
         private T[] _array;
+        private QueueMeta _meta;
 
         private class QueueMeta
         {
+            public readonly int Begin;
+            public readonly int Size;
+
             public QueueMeta(int begin, int size)
             {
                 Begin = begin;
                 Size = size;
             }
-
-            public readonly int Begin;
-            public readonly int Size;
         }
-
-        private QueueMeta _meta;
 
         public BlockingArrayDequeOnlyQueue(int arraySize)
         {
