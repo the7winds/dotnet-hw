@@ -17,10 +17,8 @@
 
         public T Deque()
         {
-            try 
+            lock (_guard)
             {
-                Monitor.Enter(_guard);
-
                 while (_size == 0)
                 {
                     Monitor.Wait(_guard);
@@ -34,37 +32,27 @@
 
                 return val;
             }
-            finally
-            {
-                Monitor.Exit(_guard);
-            }
         }
 
         public void Enque(T val)
         {
-            try
+            lock (_guard)
             {
-                Monitor.Enter(_guard);
-
                 while (_size == _array.Length)
                 {
                     Monitor.Wait(_guard);
                 }
-                
+
                 var pos = (_begin + _size) % _array.Length;
                 _array[pos] = val;
                 _size++;
 
                 Monitor.Pulse(_guard);
             }
-            finally
-            {
-                Monitor.Exit(_guard);
-            }
         }
 
         public bool TryDeque(out T val)
-        { 
+        {
             if (!Monitor.TryEnter(_guard))
             {
                 val = default(T);
