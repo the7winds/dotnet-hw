@@ -39,14 +39,24 @@
             }
         }
 
-        public Option<U> Map<U>(Func<T, U> f)
+        public Option<TU> Map<TU>(Func<T, TU> f)
         {
             if (IsNone)
             {
-                return Option<U>.None;
+                return Option<TU>.None;
             }
 
-            return Option<U>.Some(f(_value));
+            return Option<TU>.Some(f(_value));
+        }
+
+        public static Option<T> Flatten(Option<Option<T>> option)
+        {
+            if (option.IsNone)
+            {
+                return None;
+            }
+
+            return option._value;
         }
 
         public override bool Equals(object o)
@@ -69,16 +79,6 @@
             }
 
             return _value.Equals(option._value);
-        }
-
-        public static Option<T> Flatten(Option<Option<T>> option)
-        {
-            if (option.IsNone)
-            {
-                return Option<T>.None;
-            }
-
-            return option._value;
         }
 
         public override int GetHashCode()
