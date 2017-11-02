@@ -4,11 +4,27 @@
 
     public class BlockingArrayQueue<T> : IBlockingQueue<T>
     {
+        private readonly int _arraySize;
         private BlockingArrayDequeOnlyQueue<T> _dequeOnlyQueue;
 
         public BlockingArrayQueue(int arraySize)
         {
+            _arraySize = arraySize;
             _dequeOnlyQueue = new BlockingArrayDequeOnlyQueue<T>(arraySize);
+        }
+
+        public void Clear()
+        {
+            var empty = new BlockingArrayDequeOnlyQueue<T>(_arraySize);
+
+            while (true)
+            {
+                var oldQ = _dequeOnlyQueue;
+                if (Interlocked.CompareExchange(ref _dequeOnlyQueue, empty, oldQ) == oldQ)
+                {
+                    return;
+                }
+            }
         }
 
         public T Deque()

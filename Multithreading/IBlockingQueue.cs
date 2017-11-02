@@ -6,5 +6,6 @@
         T Deque();
         bool TryEnque(T val);
         bool TryDeque(out T val);
+        void Clear();
     }
 }

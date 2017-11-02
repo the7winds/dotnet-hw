@@ -15,6 +15,15 @@
             _guard = new object();
         }
 
+        public void Clear()
+        {
+            lock (_guard)
+            {
+                _begin = 0;
+                _size = 0;
+            }
+        }
+
         public T Deque()
         {
             lock (_guard)
