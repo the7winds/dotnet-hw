@@ -118,5 +118,42 @@
             }
         }
 
+        [DataTestMethod]
+        [DataRow("lockbased")]
+        [DataRow("lockfree")]
+        public void CleanEnqueTest(string queueKey)
+        {
+            var queue = queues[queueKey];
+
+            for (var i = 0; i < queueLimit; i++)
+            {
+                Assert.IsTrue(queue.TryEnque(i));
+            }
+
+            Assert.IsFalse(queue.TryEnque(42));
+
+            queue.Clear();
+
+            Assert.IsTrue(queue.TryEnque(42));
+        }
+
+        [DataTestMethod]
+        [DataRow("lockbased")]
+        [DataRow("lockfree")]
+        public void CleanDequeTest(string queueKey)
+        {
+            var queue = queues[queueKey];
+
+            for (var i = 0; i < queueLimit; i++)
+            {
+                Assert.IsTrue(queue.TryEnque(i));
+            }
+
+            Assert.IsTrue(queue.TryDeque(out int val));
+
+            queue.Clear();
+
+            Assert.IsFalse(queue.TryDeque(out val));
+        }
     }
 }
