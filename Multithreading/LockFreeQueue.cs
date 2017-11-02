@@ -29,11 +29,11 @@
 
         public T Deque()
         {
-            T var;
+            T val;
 
-            while (!_dequeOnlyQueue.TryDeque(out var));
+            while (TryDeque(out val));
 
-            return var;
+            return val
         }
 
         public void Enque(T val)
@@ -43,7 +43,14 @@
 
         public bool TryDeque(out T val)
         {
-            return _dequeOnlyQueue.TryDeque(out val);
+            var oldQ = _dequeOnlyQueue;
+
+            if (oldQ.TryDeque(out val) && _dequeOnlyQueue == oldQ)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public bool TryEnque(T val)
