@@ -1,6 +1,5 @@
 ﻿namespace Roguelike
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
 
@@ -10,7 +9,7 @@
         {
             private readonly ISet<(int, int)> walls;
 
-            private readonly Tuple<int, int> spawn;
+            private readonly (int, int) spawn;
 
             public Map(string mapFilename)
             {
@@ -30,7 +29,7 @@
                                 this.walls.Add((x, y));
                                 break;
                             case '@':
-                                this.spawn = new Tuple<int, int>(x, y);
+                                this.spawn = (x, y);
                                 break;
                         }
                     }
@@ -39,7 +38,7 @@
 
             public ISet<(int, int)> Walls => this.walls;
 
-            public Tuple<int, int> Spawn => this.spawn;
+            public (int, int) Spawn => this.spawn;
 
             public bool IsFree((int, int) pos) => !this.Walls.Contains(pos);
         }

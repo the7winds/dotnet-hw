@@ -6,7 +6,6 @@
     {
         private readonly int width;
         private readonly int height;
-        private Tuple<int, int> heroPosition;
 
         public PrettyPrinter(int width = 100, int height = 80)
         {
@@ -19,25 +18,21 @@
 
         public void Draw(Game.Hero hero)
         {
-            if (this.heroPosition != null)
-            {
-                Console.SetCursorPosition(this.heroPosition.Item1, this.heroPosition.Item2);
-                Console.Write(' ');
-            }
+            var (heroX, heroY) = this.Transform(hero.Position);
 
-            this.heroPosition = this.Transform(hero.Position);
-            Console.SetCursorPosition(this.heroPosition.Item1, this.heroPosition.Item2);
+            Console.SetCursorPosition(heroX, heroY);
             Console.Write('@');
-            Console.SetCursorPosition(this.heroPosition.Item1, this.heroPosition.Item2);
+            Console.SetCursorPosition(heroX, heroY);
         }
 
         public void Draw(Game.Map map)
         {
             Console.SetCursorPosition(0, 0);
-            foreach (Tuple<int, int> block in map.Walls)
+            foreach (var block in map.Walls)
             {
+                var (posX, posY) = block;
                 var position = this.Transform(block);
-                Console.SetCursorPosition(position.Item1, position.Item2);
+                Console.SetCursorPosition(posX, posY);
                 Console.Write('#');
             }
         }
@@ -49,11 +44,12 @@
             Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
         }
 
-        private Tuple<int, int> Transform(Tuple<int, int> position)
+        private (int, int) Transform((int, int) pos)
         {
-            var x = (position.Item1 + this.width) % this.width;
-            var y = (position.Item2 + this.height) % this.height;
-            return new Tuple<int, int>(x, y);
+            var (posX, posY) = pos;
+            var x = (posX + this.width) % this.width;
+            var y = (posY + this.height) % this.height;
+            return (x, y);
         }
     }
 }
