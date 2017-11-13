@@ -24,11 +24,10 @@
 
             var eventLoop = new EventLoop();
 
-            eventLoop.OnUp += () => { game.OnMove(0, -1); };
-            eventLoop.OnDown += () => { game.OnMove(0, 1); };
-            eventLoop.OnLeft += () => { game.OnMove(-1, 0); };
-            eventLoop.OnRight += () => { game.OnMove(1, 0); };
             eventLoop.OnStart += game.OnStart;
+
+            eventLoop.OnMove += (dx, dy) => { game.OnMove(dx, dy); };
+
             eventLoop.OnDefault += game.OnDefault;
 
             eventLoop.Run();

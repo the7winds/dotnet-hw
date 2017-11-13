@@ -1,49 +1,43 @@
 ﻿namespace Roguelike
 {
     using System;
-    using System.Collections.Generic;
 
     internal class EventLoop
     {
         public event Action OnStart;
 
-        public event Action OnLeft;
-
-        public event Action OnRight;
-
-        public event Action OnUp;
-
-        public event Action OnDown;
+        public event Action<int, int> OnMove;
 
         public event Action OnDefault;
 
         public void Run()
         {
-            var handlers = new Dictionary<ConsoleKey, Action>
-            {
-                { ConsoleKey.UpArrow, this.OnUp },
-                { ConsoleKey.DownArrow, this.OnDown },
-                { ConsoleKey.LeftArrow, this.OnLeft },
-                { ConsoleKey.RightArrow, this.OnRight }
-            };
+            this.OnStart?.Invoke();
 
-            this.OnStart.Invoke();
+            var canceled = false;
+            Console.CancelKeyPress += (o, e) => canceled = true;
 
-            while (true)
+            while (!canceled)
             {
                 var key = Console.ReadKey().Key;
 
-                if (handlers.ContainsKey(key))
+                switch (key)
                 {
-                    handlers[key].Invoke();
-                }
-                else if (key == ConsoleKey.Escape)
-                {
-                    return;
-                }
-                else
-                {
-                    this.OnDefault.Invoke();
+                    case ConsoleKey.UpArrow:
+                        this.OnMove?.Invoke(0, -1);
+                        break;
+                    case ConsoleKey.DownArrow:
+                        this.OnMove?.Invoke(0, 1);
+                        break;
+                    case ConsoleKey.LeftArrow:
+                        this.OnMove?.Invoke(-1, 0);
+                        break;
+                    case ConsoleKey.RightArrow:
+                        this.OnMove?.Invoke(1, 0);
+                        break;
+                    default:
+                        this.OnDefault?.Invoke();
+                        break;
                 }
             }
         }

@@ -8,15 +8,13 @@
         private Map map;
         private Hero hero;
 
-        private PrettyPrinter printer;
-
         public Game(string mapFilename)
         {
             this.map = new Map(mapFilename);
             this.hero = new Hero(this.map.Spawn);
         }
 
-        public PrettyPrinter Printer { get => this.printer; set => this.printer = value; }
+        public PrettyPrinter Printer { get; set; }
 
         public void OnStart()
         {
@@ -36,7 +34,7 @@
             this.Printer.Draw(this.hero);
         }
 
-        public void OnDefault() => this.printer.ResetKeypress();
+        public void OnDefault() => this.Printer.ResetKeypress();
 
         public class Map
         {
@@ -78,11 +76,9 @@
 
         public class Hero
         {
-            private Tuple<int, int> position;
-
             public Hero(Tuple<int, int> spawn) => this.Position = spawn;
 
-            public Tuple<int, int> Position { get => this.position; set => this.position = value; }
+            public Tuple<int, int> Position { get; set; }
         }
     }
 }
