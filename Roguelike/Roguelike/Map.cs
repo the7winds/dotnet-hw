@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
 
     public partial class Game
     {
@@ -15,22 +16,22 @@
             {
                 this.walls = new HashSet<(int, int)>();
 
-                using (var mapFile = new System.IO.StreamReader(mapFilename))
+                var lines = File.ReadAllLines(mapFilename);
+
+                for (int y = 0; y < lines.Length; y++)
                 {
-                    for (int y = 0; !mapFile.EndOfStream; ++y)
+                    var line = lines[y];
+
+                    for (int x = 0; x < line.Length; x++)
                     {
-                        var line = mapFile.ReadLine();
-                        for (int x = 0; x < line.Length; ++x)
+                        switch (line[x])
                         {
-                            switch (line[x])
-                            {
-                                case '#':
-                                    this.walls.Add((x, y));
-                                    break;
-                                case '@':
-                                    this.spawn = new Tuple<int, int>(x, y);
-                                    break;
-                            }
+                            case '#':
+                                this.walls.Add((x, y));
+                                break;
+                            case '@':
+                                this.spawn = new Tuple<int, int>(x, y);
+                                break;
                         }
                     }
                 }
