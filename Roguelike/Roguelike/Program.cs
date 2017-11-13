@@ -25,12 +25,14 @@
             var eventLoop = new EventLoop();
 
             eventLoop.OnStart += game.OnStart;
-
-            eventLoop.OnMove += (dx, dy) => { game.OnMove(dx, dy); };
-
+            eventLoop.OnMove += game.OnMove;
             eventLoop.OnDefault += game.OnDefault;
 
             eventLoop.Run();
+
+            eventLoop.OnStart -= game.OnStart;
+            eventLoop.OnMove -= game.OnMove;
+            eventLoop.OnDefault -= game.OnDefault;
         }
     }
 }
