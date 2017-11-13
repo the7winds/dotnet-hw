@@ -7,13 +7,13 @@
     {
         public class Map
         {
-            private readonly ISet<Tuple<int, int>> walls;
+            private readonly ISet<(int, int)> walls;
 
             private readonly Tuple<int, int> spawn;
 
             public Map(string mapFilename)
             {
-                this.walls = new HashSet<Tuple<int, int>>();
+                this.walls = new HashSet<(int, int)>();
 
                 using (var mapFile = new System.IO.StreamReader(mapFilename))
                 {
@@ -25,7 +25,7 @@
                             switch (line[x])
                             {
                                 case '#':
-                                    this.walls.Add(new Tuple<int, int>(x, y));
+                                    this.walls.Add((x, y));
                                     break;
                                 case '@':
                                     this.spawn = new Tuple<int, int>(x, y);
@@ -36,11 +36,11 @@
                 }
             }
 
-            public ISet<Tuple<int, int>> Walls => this.walls;
+            public ISet<(int, int)> Walls => this.walls;
 
             public Tuple<int, int> Spawn => this.spawn;
 
-            public bool IsFree(Tuple<int, int> newPosition) => !this.Walls.Contains(newPosition);
+            public bool IsFree((int, int) pos) => !this.Walls.Contains(pos);
         }
     }
 }

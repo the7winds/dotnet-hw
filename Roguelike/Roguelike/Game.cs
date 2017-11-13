@@ -1,7 +1,5 @@
 ﻿namespace Roguelike
 {
-    using System;
-
     public partial class Game
     {
         private Map map;
@@ -23,7 +21,7 @@
 
         public void OnMove(int dx, int dy)
         {
-            var newPosition = new Tuple<int, int>(this.hero.Position.Item1 + dx, this.hero.Position.Item2 + dy);
+            var newPosition = (x: this.hero.Position.Item1 + dx, y: this.hero.Position.Item2 + dy);
 
             if (this.map.IsFree(newPosition))
             {
