@@ -1,6 +1,5 @@
 ﻿namespace PrimeNumbers
 {
-    using System;
     using System.ComponentModel;
     using System.Windows;
     using System.Windows.Controls;
@@ -23,7 +22,11 @@
             {
                 _taskPrime = value;
                 _taskPrime.ProgressChanged += () => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Progress"));
-                _taskPrime.StateChanged += () => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StateOrResult"));
+                _taskPrime.StateChanged += () =>
+                {
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("StateOrResult"));
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsCancelEnabled"));
+                };
             }
         }
 
@@ -40,7 +43,6 @@
                     case STATE.RUNNING:
                         return "running";
                     case STATE.FINISHED:
-                        Cancel.IsEnabled = false;
                         return $"{TaskPrime.Counter}";
                     case STATE.CANCELED:
                         return "canceld";
@@ -50,13 +52,14 @@
             }
         }
 
+        public bool IsCancelEnabled => !(TaskPrime.State == STATE.FINISHED || TaskPrime.State == STATE.CANCELED);
+
         public float Progress => TaskPrime.Progress;
 
         public string TaskBound => TaskPrime.Bound.ToString();
 
         public void CancelClick(object sender, RoutedEventArgs e)
         {
-            Cancel.IsEnabled = false;
             TaskPrime?.Cancel();
         }
     }

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PrimeNumbers"
              mc:Ignorable="d" Height="47.144" Width="347.334">
     <Grid Height="47" VerticalAlignment="Top">
-        <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="262,10,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="CancelClick"/>
+        <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" Margin="262,10,0,0" VerticalAlignment="Top" Width="75" Height="26" Click="CancelClick" IsEnabled="{Binding IsCancelEnabled}"/>
         <Label Content="{Binding StateOrResult, Mode=OneWay}" HorizontalAlignment="Left" Height="26" Margin="10,10,0,0" VerticalAlignment="Top" Width="56"/>
         <ProgressBar Value="{Binding Progress, Mode=OneWay}" HorizontalAlignment="Left" Height="26" Margin="133,10,0,0" VerticalAlignment="Top" Width="124"/>
         <Label Content ="{Binding TaskBound, Mode=OneWay}" HorizontalAlignment="Left" Margin="71,10,0,0" VerticalAlignment="Top" Width="57"/>
