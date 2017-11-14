@@ -3,7 +3,6 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using System.Windows;
 
     public enum STATE
     {
@@ -41,8 +40,7 @@
 
         public readonly int Bound;
 
-        private int _counter;
-        public int Counter => _counter;
+        public int Counter { get; set; }
 
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -61,11 +59,11 @@
 
         public Task<bool> IsPrime(int n) => Task.Run(() =>
         {
-            for (int i = 2; i * i < n; ++i)
+            for (int i = 2; i * i <= n; ++i)
             {
                 _cancellationTokenSource.Token.ThrowIfCancellationRequested();
 
-                if (n % 2 == 0)
+                if (n % i == 0)
                 {
                     return false;
                 }
@@ -86,7 +84,7 @@
 
                     if (await IsPrime(i))
                     {
-                        _counter++;
+                        Counter++;
                     }
 
                     Progress = (float)100 * i / Bound;

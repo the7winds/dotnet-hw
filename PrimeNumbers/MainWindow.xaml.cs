@@ -17,6 +17,7 @@
             if (int.TryParse(InputText.Text, out int bound))
             {
                 var taskControl = new TaskPrimeControl();
+                taskControl.DataContext = taskControl;
                 taskControl.TaskPrime = new TaskPrime(bound);
                 taskControl.TaskPrime.Count();
                 TasksList.Items.Add(taskControl);

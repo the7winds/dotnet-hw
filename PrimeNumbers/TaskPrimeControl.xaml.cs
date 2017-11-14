@@ -17,7 +17,7 @@
         private TaskPrime _taskPrime;
         public TaskPrime TaskPrime
         {
-            get => _taskPrime;
+            get => (DataContext as TaskPrimeControl)?._taskPrime;
             set
             {
                 _taskPrime = value;
@@ -52,7 +52,9 @@
             }
         }
 
-        public bool IsCancelEnabled => !(TaskPrime.State == STATE.FINISHED || TaskPrime.State == STATE.CANCELED);
+        public bool IsCancelEnabled {
+            get => !(TaskPrime.State == STATE.FINISHED || TaskPrime.State == STATE.CANCELED);
+        }
 
         public float Progress => TaskPrime.Progress;
 

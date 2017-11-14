@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PrimeNumbers"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="350" Width="525"
+        DataContext="{Binding DataContext}">
     <Grid>
         <ListView Name="TasksList"  HorizontalAlignment="Left" Height="200" Margin="52,79,0,0" VerticalAlignment="Top" Width="405">
             <ListView.View>
