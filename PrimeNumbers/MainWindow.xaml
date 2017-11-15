@@ -1,0 +1,33 @@
+﻿<Window x:Class="PrimeNumbers.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PrimeNumbers"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525"
+        DataContext="{Binding DataContext}">
+    <Grid>
+        <ListView Name="TasksList"  HorizontalAlignment="Left" Height="200" Margin="52,79,0,0" VerticalAlignment="Top" Width="405">
+            <ListView.View>
+                <GridView>
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridViewColumn>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <local:TaskPrimeControl/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBox x:Name="InputText" HorizontalAlignment="Left" Height="29" Margin="52,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="280"/>
+        <Button x:Name="SubmitButton" Content="Submit" HorizontalAlignment="Left" Height="29" Margin="360,24,0,0" VerticalAlignment="Top" Width="97" Click="SubmitButton_Click"/>
+
+    </Grid>
+</Window>
