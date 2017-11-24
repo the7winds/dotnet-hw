@@ -1,21 +1,21 @@
-﻿namespace Multithreading.LockFree
+﻿namespace Multithreading
 {
     using System.Threading;
 
-    public class BlockingArrayQueue<T> : IBlockingQueue<T>
+    public class LockFreeBlockingArrayQueue<T> : IBlockingQueue<T>
     {
         private readonly int _arraySize;
-        private BlockingArrayDequeOnlyQueue<T> _dequeOnlyQueue;
+        private LockFreeBlockingArrayDequeOnlyQueue<T> _dequeOnlyQueue;
 
-        public BlockingArrayQueue(int arraySize)
+        public LockFreeBlockingArrayQueue(int arraySize)
         {
             _arraySize = arraySize;
-            _dequeOnlyQueue = new BlockingArrayDequeOnlyQueue<T>(arraySize);
+            _dequeOnlyQueue = new LockFreeBlockingArrayDequeOnlyQueue<T>(arraySize);
         }
 
         public void Clear()
         {
-            var empty = new BlockingArrayDequeOnlyQueue<T>(_arraySize);
+            var empty = new LockFreeBlockingArrayDequeOnlyQueue<T>(_arraySize);
 
             while (true)
             {
@@ -31,9 +31,9 @@
         {
             T val;
 
-            while (TryDeque(out val));
+            while (!TryDeque(out val));
 
-            return val
+            return val;
         }
 
         public void Enque(T val)
@@ -62,7 +62,7 @@
                 return false;
             }
 
-            var newQ = new BlockingArrayDequeOnlyQueue<T>(_dequeOnlyQueue, val);
+            var newQ = new LockFreeBlockingArrayDequeOnlyQueue<T>(_dequeOnlyQueue, val);
             return Interlocked.CompareExchange(ref _dequeOnlyQueue, newQ, oldQ) == oldQ;
         }
     }

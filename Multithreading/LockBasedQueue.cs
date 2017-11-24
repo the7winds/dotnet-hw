@@ -1,15 +1,15 @@
-﻿namespace Multithreading.LockBased
+﻿namespace Multithreading
 {
     using System.Threading;
 
-    public class BlockingArrayQueue<T> : IBlockingQueue<T>
+    public class LockBasedBlockingArrayQueue<T> : IBlockingQueue<T>
     {
-        private T[] _array;
+        private readonly T[] _array;
         private int _begin;
         private int _size;
-        private object _guard;
+        private readonly object _guard;
 
-        public BlockingArrayQueue(int arraySize)
+        public LockBasedBlockingArrayQueue(int arraySize)
         {
             _array = new T[arraySize];
             _guard = new object();

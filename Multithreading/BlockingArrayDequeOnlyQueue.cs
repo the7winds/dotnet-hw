@@ -1,10 +1,10 @@
-﻿namespace Multithreading.LockFree
+﻿namespace Multithreading
 {
     using System.Threading;
 
-    public class BlockingArrayDequeOnlyQueue<T>
+    public class LockFreeBlockingArrayDequeOnlyQueue<T>
     {
-        private T[] _array;
+        private readonly T[] _array;
         private QueueMeta _meta;
 
         private class QueueMeta
@@ -19,13 +19,13 @@
             }
         }
 
-        public BlockingArrayDequeOnlyQueue(int arraySize)
+        public LockFreeBlockingArrayDequeOnlyQueue(int arraySize)
         {
             _array = new T[arraySize];
             _meta = new QueueMeta(0, 0);
         }
 
-        public BlockingArrayDequeOnlyQueue(BlockingArrayDequeOnlyQueue<T> queue, T element)
+        public LockFreeBlockingArrayDequeOnlyQueue(LockFreeBlockingArrayDequeOnlyQueue<T> queue, T element)
         {
             _array = queue._array.Clone() as T[];
 

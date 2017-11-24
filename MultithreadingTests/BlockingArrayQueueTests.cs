@@ -1,21 +1,21 @@
 ﻿namespace Multithreading.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Threading;
-    using System.Diagnostics;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Threading;
 
     [TestClass]
     public class BlockingArrayQueueTests
     {
-        private const int queueLimit = 10;
+        private const int QUEUE_LIMIT = 10;
         private IDictionary<string, IBlockingQueue<int>> queues = new Dictionary<string, IBlockingQueue<int>>();
 
         [TestInitialize]
         public void PrepareQueue()
         {
-            queues["lockbased"] =  new LockBased.BlockingArrayQueue<int>(queueLimit);
-            queues["lockfree"] = new  LockFree.BlockingArrayQueue<int>(queueLimit);
+            queues["lockbased"] = new LockBasedBlockingArrayQueue<int>(QUEUE_LIMIT);
+            queues["lockfree"] = new LockFreeBlockingArrayQueue<int>(QUEUE_LIMIT);
         }
 
         [DataTestMethod]
@@ -64,7 +64,7 @@
         {
             var queue = queues[queueKey];
 
-            for (int i = 0; i < queueLimit; i++)
+            for (int i = 0; i < QUEUE_LIMIT; i++)
             {
                 queue.Enque(i);
             }
@@ -90,7 +90,7 @@
         {
             var queue = queues[queueKey];
 
-            for (var i = 0; i < queueLimit; i++)
+            for (var i = 0; i < QUEUE_LIMIT; i++)
             {
                 Assert.IsTrue(queue.TryEnque(i));
             }
@@ -105,12 +105,12 @@
         {
             var queue = queues[queueKey];
 
-            for (var i = 0; i < queueLimit; i++)
+            for (var i = 0; i < QUEUE_LIMIT; i++)
             {
                 Assert.IsTrue(queue.TryEnque(i));
             }
 
-            for (var i = 0; i < queueLimit; i++)
+            for (var i = 0; i < QUEUE_LIMIT; i++)
             {
                 int val;
                 Assert.IsTrue(queue.TryDeque(out val));
@@ -125,7 +125,7 @@
         {
             var queue = queues[queueKey];
 
-            for (var i = 0; i < queueLimit; i++)
+            for (var i = 0; i < QUEUE_LIMIT; i++)
             {
                 Assert.IsTrue(queue.TryEnque(i));
             }
@@ -144,7 +144,7 @@
         {
             var queue = queues[queueKey];
 
-            for (var i = 0; i < queueLimit; i++)
+            for (var i = 0; i < QUEUE_LIMIT; i++)
             {
                 Assert.IsTrue(queue.TryEnque(i));
             }
