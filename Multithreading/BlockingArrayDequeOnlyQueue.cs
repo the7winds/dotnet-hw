@@ -1,5 +1,6 @@
 ﻿namespace Multithreading
 {
+    using System;
     using System.Threading;
 
     public class LockFreeBlockingArrayDequeOnlyQueue<T>
@@ -36,6 +37,8 @@
             var size = queue._meta.Size + 1;
             _meta = new QueueMeta(begin, size);
         }
+
+        internal int Count() => _meta.Size;
 
         public bool IsFull()
         {

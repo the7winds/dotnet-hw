@@ -24,6 +24,8 @@
             }
         }
 
+        public int Count() => _size;
+
         public T Deque()
         {
             lock (_guard)

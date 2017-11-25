@@ -27,6 +27,8 @@
             }
         }
 
+        public int Count() => _dequeOnlyQueue.Count();
+
         public T Deque()
         {
             T val;
