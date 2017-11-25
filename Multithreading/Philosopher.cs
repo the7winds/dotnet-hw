@@ -64,11 +64,12 @@
             _forks = new Fork[n];
             Philosophers = new Philosopher[n];
 
-            for (var i = 0; i < n; i++) {
+            for (var i = 0; i < n; i++)
+            {
                 _forks[i] = new Fork(i);
             }
 
-            for (var i = 0; i < n-1; i++)
+            for (var i = 0; i < n - 1; i++)
             {
                 Philosophers[i] = new Philosopher(i, _forks[i], _forks[i + 1]);
             }

@@ -44,26 +44,26 @@
         
         public bool TryDeque(out T val)
         {
-            var old_meta = _meta;
+            var oldMeta = _meta;
 
-            if (old_meta.Size == 0)
+            if (oldMeta.Size == 0)
             {
                 val = default(T);
                 return false;
             }
 
-            var old_value = _array[old_meta.Begin];
-            var new_begin = (old_meta.Begin + 1) % _array.Length;
-            var new_size = old_meta.Size - 1;
-            var new_meta = new QueueMeta(new_begin, new_size);
+            var oldValue = _array[oldMeta.Begin];
+            var newBegin = (oldMeta.Begin + 1) % _array.Length;
+            var newSize = oldMeta.Size - 1;
+            var newMeta = new QueueMeta(newBegin, newSize);
 
-            if (Interlocked.CompareExchange(ref _meta, new_meta, old_meta) != old_meta)
+            if (Interlocked.CompareExchange(ref _meta, newMeta, oldMeta) != oldMeta)
             {
                 val = default(T);
                 return false;
             }
 
-            val = old_value;
+            val = oldValue;
             return true;
         }
     }
