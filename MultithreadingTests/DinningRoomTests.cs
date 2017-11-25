@@ -1,8 +1,7 @@
 ﻿namespace Multithreading.Philosophers.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Threading;
-    using System.Collections.Generic;
+    using System.Linq;
 
     [TestClass]
     public class DinningRoomTests
@@ -12,22 +11,13 @@
         {
             var dinningRoom = new DinningRoom(5);
 
-            var threads = new LinkedList<Thread>();
+            dinningRoom.Run(5000);
 
-            foreach (var philosopher in dinningRoom.Philosophers)
-            {
-                var thread = new Thread(() => philosopher.Live());
-                threads.AddLast(thread);
-                thread.Start();
-            }
+            var allHadDinner = dinningRoom.GetDinnerCounters()
+                .Select(c => c > 0)
+                .Aggregate(true, (acc, v) => acc && v);
 
-            Thread.Sleep(5000);
-
-            foreach (var thread in threads)
-            {
-                thread.Interrupt();
-                thread.Join();
-            }
+            Assert.IsTrue(allHadDinner);
         }
     }
 }
