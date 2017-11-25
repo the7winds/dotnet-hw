@@ -62,13 +62,7 @@
 
         public bool TryDeque(out T val)
         {
-            if (!Monitor.TryEnter(_guard))
-            {
-                val = default(T);
-                return false;
-            }
-
-            try
+            lock (_guard)
             {
                 if (_size == 0)
                 {
@@ -84,20 +78,11 @@
 
                 return true;
             }
-            finally
-            {
-                Monitor.Exit(_guard);
-            }
         }
 
         public bool TryEnque(T val)
         {
-            if (!Monitor.TryEnter(_guard))
-            {
-                return false;
-            }
-
-            try
+            lock (_guard)
             {
                 if (_size == _array.Length)
                 {
@@ -111,10 +96,6 @@
                 Monitor.Pulse(_guard);
 
                 return true;
-            }
-            finally
-            {
-                Monitor.Exit(_guard);
             }
         }
     }
