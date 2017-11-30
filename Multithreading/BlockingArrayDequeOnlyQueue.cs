@@ -1,6 +1,5 @@
 ﻿namespace Multithreading
 {
-    using System;
     using System.Threading;
 
     public class LockFreeBlockingArrayDequeOnlyQueue<T>
