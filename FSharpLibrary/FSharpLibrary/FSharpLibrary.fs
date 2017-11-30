@@ -27,7 +27,7 @@ module Lib =
         match l with
         | [] -> []
         | x::[] -> l
-        | _::_::_ -> 
+        | _ -> 
             let (left, right) = List.splitAt (List.length l / 2) l in
             let ls = mergesort left in
             let rs = mergesort right in
