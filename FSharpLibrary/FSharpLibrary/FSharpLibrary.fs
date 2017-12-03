@@ -42,7 +42,7 @@ module Lib =
 
     let rec nthPrime n =
         match n with
-        | 1 -> 2
+        | 0 -> 2
         | n -> firstPrimeAfter (nthPrime (n-1) + 1)
 
     let prime = Seq.initInfinite nthPrime
