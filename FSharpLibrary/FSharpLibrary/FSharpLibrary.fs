@@ -3,10 +3,10 @@
 module Lib =
 
     // evaluate n-th fibonacci number
-    let rec _fibonacci n p1 p2 = 
+    let rec _fibonacci n p1 p2: bigint = 
         if n = 0 then p1 else _fibonacci (n-1) p2 (p1 + p2)
 
-    let fibonacci n = _fibonacci n 1 1
+    let fibonacci n: bigint = _fibonacci n 1I 1I
 
     // revert list
     let rec _revert l r =
@@ -26,7 +26,7 @@ module Lib =
     let rec mergesort l = 
         match l with
         | [] -> []
-        | x::[] -> l
+        | [_] -> l
         | _ -> 
             let (left, right) = List.splitAt (List.length l / 2) l in
             let ls = mergesort left in
